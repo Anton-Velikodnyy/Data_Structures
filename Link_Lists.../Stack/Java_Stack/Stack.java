@@ -19,8 +19,8 @@ class Node<U> {
 	/**
 	 *	Pointer to the next node in the chain.
 	 */
-	protected  Node next;
-
+	protected  Node<U> next;
+	
 	//----------------------------------------------------------------------------
 	/**
 	 *	Constructor of this {@code Node} class.
@@ -28,7 +28,7 @@ class Node<U> {
 	 *	@param data  takes given object and stores in this Node.
 	 *	@param next  sets another Node as the next pointer of this Node.
 	 */
-	protected Node (U data, Node next) {
+	protected Node (U data, Node<U> next) {
 		this.data = data;
 		this.next = next;
 	}
@@ -58,8 +58,8 @@ public class Stack<T>  {
 	/**
 	 *	Stores pointer to starting Node of the chain.
 	 */
-	private Node headNode = null;
-
+	private Node<T> headNode = null;
+	
 	//----------------------------------------------------------------------------
 	
 	/**
@@ -74,7 +74,7 @@ public class Stack<T>  {
 	 *	data-type of this class, to be stored.
 	 */
 	public void lastIn (T data) {
-			headNode = new Node (data, headNode);
+		headNode = new Node<T> (data, headNode);
 	}
 	
 	//----------------------------------------------------------------------------
@@ -114,7 +114,7 @@ public class Stack<T>  {
 	 */
 	@Override
 	public String toString() {
-		Node currentNode = headNode;
+		Node<T> currentNode = headNode;
 		StringBuilder builder = new StringBuilder("");
 		while (currentNode != null) {
 			builder.append(currentNode + " ");

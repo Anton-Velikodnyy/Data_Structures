@@ -1,4 +1,4 @@
-/*  
+/*
  *	Created by Anton Velikodnyy & edited by Daniel Tellier on 6/27/17.
  *	Copyright © 2017 Anton Velikodnyy. All rights reserved.
  *	May be distributed for the use of teaching purposes.
@@ -19,12 +19,12 @@ class Node<U> {
 	/**
 	 *	Pointer to the next node in the chain.
 	 */
-	protected  Node next;
+	protected  Node<U> next;
 	
 	/**
 	 *	Pointer to the previous node in the chain.
 	 */
-	protected  Node prev;
+	protected  Node<U> prev;
 	
 	//----------------------------------------------------------------------------
 	/**
@@ -34,7 +34,7 @@ class Node<U> {
 	 *	@param next  sets another Node as the next pointer of this Node.
 	 *	@param prev  sets another Node as the prev pointer of this Node.
 	 */
-	protected Node (U data, Node next, Node prev) {
+	protected Node (U data, Node<U> next, Node<U> prev) {
 		this.data = data;
 		this.next = next;
 		this.prev = prev;
@@ -62,15 +62,15 @@ public class List<T>  {
 	
 	
 	//----------------------------------------------------------------------------
-  /**
-   *	Stores pointer to starting Node of the chain.
-   */
-	private Node headNode = null;
+	/**
+	 *	Stores pointer to starting Node of the chain.
+	 */
+	private Node<T> headNode = null;
 	/**
 	 *	Stores pointer to ending Node of the chain.
 	 */
-	private Node tailNode = null;
-
+	private Node<T> tailNode = null;
+	
 	//----------------------------------------------------------------------------
 	/**
 	 *	Inserts Node instance at the start of the chain.
@@ -93,11 +93,11 @@ public class List<T>  {
 	 */
 	public void firstIn (T data) {
 		if (this.isEmpty()) {
-			headNode = new Node (data, null, null);
+			headNode = new Node<T> (data, null, null);
 			tailNode = headNode;
 		}
 		else {
-			Node freshNode = new Node (data, headNode, null);
+			Node<T> freshNode = new Node<T> (data, headNode, null);
 			headNode.prev = freshNode;
 			headNode = freshNode;
 		}
@@ -124,11 +124,11 @@ public class List<T>  {
 	 */
 	public void lastIn (T data) {
 		if (this.isEmpty()) {
-			headNode = new Node (data, null, null);
+			headNode = new Node<T> (data, null, null);
 			tailNode = headNode;
 		}
 		else {
-			Node freshNode = new Node (data, null, tailNode);
+			Node<T> freshNode = new Node<T> (data, null, tailNode);
 			tailNode.next = freshNode;
 			tailNode = freshNode;
 		}
@@ -197,7 +197,7 @@ public class List<T>  {
 	/**
 	 *	Converts the chain of Nodes, through itteration, into a String.
 	 *	<p>
-	 *	The order of the Node instances are printed from headNode to tailNode. 
+	 *	The order of the Node instances are printed from headNode to tailNode.
 	 *	Then again from tailNode to headNode for testing purposes.
 	 *	<p>
 	 *	Returns an emtpy string ("") if chain is empty.
@@ -206,11 +206,11 @@ public class List<T>  {
 	 */
 	@Override
 	public String toString() {
-		Node currentNode = headNode;
+		Node<T> currentNode = headNode;
 		StringBuilder builder = new StringBuilder();
 		while (currentNode != null) {
 			builder.append(currentNode + " ");
-			currentNode = currentNode.next;								
+			currentNode = currentNode.next;
 		}
 		currentNode = tailNode;
 		builder.append("\n");
@@ -220,7 +220,7 @@ public class List<T>  {
 		}
 		return builder.toString();
 	}
-
+	
 	//----------------------------------------------------------------------------
 	/**
 	 *	Tests this List class for possible errors.
@@ -239,6 +239,7 @@ public class List<T>  {
 		list.lastOut();
 		list.firstOut();
 		list.firstOut();
-		System.out.println (list);			
+		System.out.println (list);
 	}
 }
+
