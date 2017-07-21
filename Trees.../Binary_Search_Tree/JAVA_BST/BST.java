@@ -89,31 +89,26 @@ public class BST<T extends Number>  {
 	 *	@param data  is an Object, who's data-type matches the initially declared
 	 *	data-type of this class, to be stored.
 	 */
-	public void insert (T data) {
-		if (this.isEmpty()) {
-			headNode = new Node<T> (data);
+	public void insert(T data) {
+		if (headNode == null) {
+			headNode = new Node<T>(data);
+			return;
 		}
-		else {
-			Node<T> tempNode = headNode;
-			while (tempNode.data.longValue() != data.longValue())  {
-				if (tempNode.data.longValue() > data.longValue())  {
-					if (tempNode.leftChild == null) {
-						tempNode.leftChild = new Node<T> (data);
-						return;
-					}
-					else
-						tempNode = tempNode.leftChild;
-				}
-				else if (tempNode.data.longValue() < data.longValue()) {
-					if (tempNode.rightChild == null) {
-						tempNode.rightChild = new Node<T> (data);
-						return;
-					}
-					else
-						tempNode = tempNode.rightChild;
-				}
-			}
+		Node<T> parent = null, tempNode = headNode;
+		while (tempNode != null) {
+			parent = tempNode;
+			if      (tempNode.data.longValue() > data.longValue())
+				tempNode = tempNode.leftChild;
+			else if (tempNode.data.longValue() < data.longValue())
+				tempNode = tempNode.rightChild;
+			else {
+				return;
+			}   // overwrite duplicate
 		}
+		if (parent.data.longValue() > data.longValue())
+			parent.leftChild  = new Node<T>(data);
+		else
+			parent.rightChild = new Node<T>(data);
 	}
 	
 	//----------------------------------------------------------------------------
@@ -130,29 +125,22 @@ public class BST<T extends Number>  {
 	 *	@param data  search criteria for the node to be removed.
 	 */
 	public void removeSearch (T data){
-		if (!this.isEmpty()) {
-			Node<T> tempNode = headNode;
-			while (tempNode.data.longValue() != data.longValue())  {
-				System.out.println ("Currently at " + tempNode.data.intValue());
-				if ( tempNode.leftChild != null && tempNode.data.longValue() > data.longValue()) {
-					if (tempNode.leftChild.data.longValue() == data.longValue()) {
-						removeNode (tempNode, true);
-						return;
-					}
-					else
-						tempNode = tempNode.leftChild;
-				}
-				else if (tempNode.rightChild != null && tempNode.data.longValue() < data.longValue()) {
-					if (tempNode.rightChild.data.longValue() == data.longValue()) {
-						removeNode (tempNode, false);
-						return;
-					}
-					else
-						tempNode = tempNode.rightChild;
-				}
-				else return;
-			}
+		if (headNode == null) {
+			return;
 		}
+		Node<T> parent = null, tempNode = headNode;
+		while (tempNode != null) {
+			if (tempNode.data.longValue() == data.longValue()) {
+				removeNode (parent, tempNode == parent.leftChild);
+				return;
+			}
+			parent = tempNode;
+			if      (tempNode.data.longValue() > data.longValue())
+				tempNode = tempNode.leftChild;
+			else if (tempNode.data.longValue() < data.longValue())
+				tempNode = tempNode.rightChild;
+		}   // overwrite duplicate
+		
 	}
  
 	/*
