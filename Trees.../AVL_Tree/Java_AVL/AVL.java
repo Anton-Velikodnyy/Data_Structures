@@ -12,17 +12,17 @@
  *	Note, requires {@code extends Comparable} because < and > are used to compare
  *	generic objects
  */
-import java.util.Arrays;
-class Node<U extends Comparable> {
+class Node<T extends Comparable<T>>  {
 	
 	/**
 	 *	Stores a generic immutable object.
 	 */
 	protected final U data;
+	
 	/**
 	 *	Stores value for structure organization.
 	 */
-	protected int key;
+	protected int height;
 	
 	/**
 	 *	Pointer to the leftChild child node of this node in the tree.
@@ -40,7 +40,7 @@ class Node<U extends Comparable> {
 	 *
 	 *	@param data  takes given object and stores in this Node.
 	 */
-	protected Node (U data) {
+	protected Node (U data)  {
 		this.data = data;
 	}
 	
@@ -50,7 +50,7 @@ class Node<U extends Comparable> {
 	 *	@return data in string form.
 	 */
 	@Override
-	public String toString () {
+	public String toString ()  {
 		return data.toString();
 	}
 	
@@ -66,7 +66,7 @@ class Node<U extends Comparable> {
  *	Note, requires {@code extends Number} because < and > are used to compare
  *	generic objects
  */
-public class AVL<T extends Number & Comparable<T>>  {
+public class AVL<T extends Comparable<T>>  {
 	
 	
 	//----------------------------------------------------------------------------
@@ -81,30 +81,27 @@ public class AVL<T extends Number & Comparable<T>>  {
 	private Node<T> maxNodeTemp;
 	
 	//----------------------------------------------------------------------------
-	
-	/* 
-	 *	Gets key of node.
+	/*
+	 *	Gets height of node.
 	 *
-	 *	@param tempNode  Node who's key is in question.
-	 *	@return key of tempNode or if null, -1.
+	 *	@param tempNode  Node who's height is in question.
+	 *	@return height of tempNode or if null, -1.
 	 */
-	private int getKey (Node<T> tempNode)
-	{
+	private int getKey (Node<T> tempNode)  {
 		if (tempNode == null)
 			return -1;
 		else
-			return tempNode.key;
+			return tempNode.height;
 	}
 	
-	/* 
-	 *	Gets biggest key between leftChild and rightChild node.
+	/*
+	 *	Gets biggest height between leftChild and rightChild node.
 	 *
-	 *	@param leftChild  key of the left node.
-	 *	@param rightChild  key of the right node.
+	 *	@param leftChild  height of the left node.
+	 *	@param rightChild  height of the right node.
 	 *	@return int of the Child which is bigger
 	 */
-	private int getMax(int leftChild, int rightChild)
-	{
+	private int getMax(int leftChild, int rightChild)  {
 		if (leftChild > rightChild)
 			return leftChild;
 		else
@@ -112,7 +109,6 @@ public class AVL<T extends Number & Comparable<T>>  {
 	}
 	
 	//----------------------------------------------------------------------------
-	
 	/*
 	 *	Rotate binary tree node with left child.
 	 *	<p>
@@ -124,15 +120,14 @@ public class AVL<T extends Number & Comparable<T>>  {
 	 *	@param parent  Node to be rotated right.
 	 *	@return leftChild which now points to parent.
 	 */
-	private Node<T> rotateWithLeftChild(Node<T> parent)
-	{
+	private Node<T> rotateWithLeftChild(Node<T> parent)  {
 		Node<T> leftChild = parent.leftChild;
 		
 		parent.leftChild = leftChild.rightChild;
 		leftChild.rightChild = parent;
 		
-		parent.key = getMax(getKey(parent.leftChild), getKey(parent.rightChild)) + 1;
-		leftChild.key = getMax(getKey(leftChild.leftChild), parent.key) + 1;
+		parent.height = getMax(getKey(parent.leftChild), getKey(parent.rightChild)) + 1;
+		leftChild.height = getMax(getKey(leftChild.leftChild), parent.height) + 1;
 		return leftChild;
 	}
 	
@@ -147,15 +142,14 @@ public class AVL<T extends Number & Comparable<T>>  {
 	 *	@param parent  Node to be rotated left.
 	 *	@return rightChild which now points to parent.
 	 */
-	private Node<T> rotateWithRightChild(Node<T> parent)
-	{
+	private Node<T> rotateWithRightChild(Node<T> parent)  {
 		Node<T> rightChild = parent.rightChild;
 		
 		parent.rightChild = rightChild.leftChild;
 		rightChild.leftChild = parent;
 		
-		parent.key = getMax(getKey(parent.leftChild), getKey(parent.rightChild)) + 1;
-		rightChild.key = getMax(getKey(rightChild.rightChild), parent.key) + 1;
+		parent.height = getMax(getKey(parent.leftChild), getKey(parent.rightChild)) + 1;
+		rightChild.height = getMax(getKey(rightChild.rightChild), parent.height) + 1;
 		return rightChild;
 	}
 	
@@ -164,10 +158,10 @@ public class AVL<T extends Number & Comparable<T>>  {
 	 *	<p>
 	 *	If this tempNode is null, no need to balance.
 	 *	<p>
-	 *	Comparison is made between this tempNode's children's keys. 
-	 *	If these keys' difference is greater than 1, a rotation is needed to fix tree.
-	 *	If a rotation is needed, the childrens' height of Node with bigger key are
-	 *	compared. One with the higher key is used to establish the type of rotations
+	 *	Comparison is made between this tempNode's children's heights.
+	 *	If these heights' difference is greater than 1, a rotation is needed to fix tree.
+	 *	If a rotation is needed, the childrens' height of Node with bigger height are
+	 *	compared. One with the higher height is used to establish the type of rotations
 	 *	to undergo.
 	 *	<p>
 	 *	Rotations are called based on which orientation of nodes fits the if statements.
@@ -175,7 +169,7 @@ public class AVL<T extends Number & Comparable<T>>  {
 	 *	@param tempNode  Node to be balanced.
 	 *	@return tempNode which is the node that fits into that location after rotations.
 	 */
-	private Node<T> balanceNode (Node<T> tempNode) {
+	private Node<T> balanceNode (Node<T> tempNode)  {
 		if (tempNode == null)
 			return tempNode;
 		
@@ -184,7 +178,7 @@ public class AVL<T extends Number & Comparable<T>>  {
 				tempNode.leftChild = rotateWithRightChild (tempNode.leftChild);
 				tempNode = rotateWithLeftChild (tempNode);
 			}
-			else 
+			else
 				tempNode = rotateWithLeftChild (tempNode);
 		}
 		else if (getKey (tempNode.rightChild) - getKey (tempNode.leftChild) > 1) {
@@ -196,7 +190,7 @@ public class AVL<T extends Number & Comparable<T>>  {
 				tempNode = rotateWithRightChild (tempNode);
 		}
 		
-		tempNode.key = getMax(getKey(tempNode.leftChild), getKey(tempNode.rightChild)) + 1;
+		tempNode.height = getMax(getKey(tempNode.leftChild), getKey(tempNode.rightChild)) + 1;
 		return tempNode;
 	}
 	
@@ -210,8 +204,7 @@ public class AVL<T extends Number & Comparable<T>>  {
 	 *	@param data  is an Object, who's data-type matches the initially declared
 	 *	data-type of this class, to be stored.
 	 */
-	public void insert(T data)
-	{
+	public void insert(T data){
 		headNode = insert(data, headNode);
 	}
 	
@@ -219,7 +212,7 @@ public class AVL<T extends Number & Comparable<T>>  {
 	 *	Insert data through recursion.
 	 *	<p>
 	 *	Uses recursion to traverse this tree.
-	 *	Uses {@code compareTo}, property of Comparable objects, to find which way 
+	 *	Uses {@code compareTo}, property of Comparable objects, to find which way
 	 *	to traverse through the tree.
 	 *	Calls itself either with left or right child based on comparisonResult.
 	 *	<p>
@@ -232,8 +225,7 @@ public class AVL<T extends Number & Comparable<T>>  {
 	 *	@param tempNode  pointer used for traversal of this tree.
 	 *	@return tempNode which is the current Node to be traversed.
 	 */
-	private Node<T> insert(T data, Node<T> tempNode)
-	{
+	private Node<T> insert(T data, Node<T> tempNode)  {
 		if( tempNode == null )
 			return new Node<T>(data);
 		
@@ -248,7 +240,7 @@ public class AVL<T extends Number & Comparable<T>>  {
 		return balanceNode( tempNode );
 	}
 	
-
+	
 	
 	//----------------------------------------------------------------------------
 	/**
@@ -261,8 +253,7 @@ public class AVL<T extends Number & Comparable<T>>  {
 	 */
 	
 	/* Function to delete data */
-	public void remove(T data)
-	{
+	public void remove(T data)  {
 		headNode = remove(data, headNode);
 	}
 	
@@ -274,7 +265,7 @@ public class AVL<T extends Number & Comparable<T>>  {
 	 *	to traverse through the tree.
 	 *	Calls itself either with left or right child based on comparisonResult.
 	 *	<p>
-	 *	Once the Node matches the key given, this Node is removed.
+	 *	Once the Node matches the height given, this Node is removed.
 	 *	<p>
 	 *	Returning back through the stack, returns the previous node accessed, and
 	 *	any modifications it has recieved, such as a null from the removed Node.
@@ -283,8 +274,7 @@ public class AVL<T extends Number & Comparable<T>>  {
 	 *	@param tempNode  pointer used for traversal of this tree.
 	 *	@return tempNode which is the current Node to be traversed.
 	 */
-	private Node<T> remove(T data, Node<T> tempNode)
-	{
+	private Node<T> remove(T data, Node<T> tempNode)  {
 		if( tempNode == null )
 			return tempNode;
 		
@@ -294,7 +284,7 @@ public class AVL<T extends Number & Comparable<T>>  {
 			tempNode.leftChild = remove (data, tempNode.leftChild);
 		else if (comparisonResult > 0)
 			tempNode.rightChild = remove (data, tempNode.rightChild);
-		else 
+		else
 			tempNode = removeNode (tempNode);
 		
 		return balanceNode (tempNode);
@@ -311,7 +301,7 @@ public class AVL<T extends Number & Comparable<T>>  {
 	 *	@param tempNode  pointer used for traversal of this tree.
 	 *	@return tempNode which is the current Node to be traversed.
 	 */
-	private Node<T> findNextLargest (Node<T> tempNode) {
+	private Node<T> findNextLargest (Node<T> tempNode)  {
 		if (tempNode.leftChild == null) {
 			maxNodeTemp = tempNode;
 			tempNode = tempNode.rightChild;
@@ -346,11 +336,11 @@ public class AVL<T extends Number & Comparable<T>>  {
 		if (tempNode.rightChild == null) {
 			if (tempNode.leftChild == null)
 				tempNode = null;
-			else 
+			else
 				tempNode = tempNode.leftChild;
 		}
 		
-		else if (tempNode.leftChild == null) 
+		else if (tempNode.leftChild == null)
 			tempNode = tempNode.rightChild;
 		
 		else {
@@ -369,7 +359,7 @@ public class AVL<T extends Number & Comparable<T>>  {
 	}
 	
 	//----------------------------------------------------------------------------
-
+	
 	/*
 	 *	Clears this tree.
 	 */
@@ -403,18 +393,9 @@ public class AVL<T extends Number & Comparable<T>>  {
 		if (!isEmpty())  {
 			
 			return "inOrder: "   + inOrder(headNode) + "\n" +
-						 "preOrder: "  + preOrder(headNode) + "\n" +
-						 "PostOrder: " + postOrder(headNode);
+			"preOrder: "  + preOrder(headNode) + "\n" +
+			"PostOrder: " + postOrder(headNode);
 			
-		}
-		return "";
-	}
-	
-	public String inOrder (Node<T> tempNode)  {
-		if (tempNode != null) {
-			return  inOrder(tempNode.leftChild) +
-			tempNode + " " +
-			inOrder(tempNode.rightChild);
 		}
 		return "";
 	}
@@ -424,6 +405,15 @@ public class AVL<T extends Number & Comparable<T>>  {
 			return  tempNode + " "+
 			preOrder(tempNode.leftChild) +
 			preOrder(tempNode.rightChild);
+		}
+		return "";
+	}
+	
+	public String inOrder (Node<T> tempNode)  {
+		if (tempNode != null) {
+			return  inOrder(tempNode.leftChild) +
+			tempNode + " " +
+			inOrder(tempNode.rightChild);
 		}
 		return "";
 	}
