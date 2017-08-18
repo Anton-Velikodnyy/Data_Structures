@@ -12,7 +12,7 @@
  *	Note, requires {@code extends Comparable} because < and > are used to compare
  *	generic objects
  */
-class Node<T extends Comparable<T>>  {
+class Node<U extends Comparable<U>>  {
 	
 	/**
 	 *	Stores a generic immutable object.
@@ -94,7 +94,7 @@ public class AVL<T extends Comparable<T>>  {
 			return tempNode.height;
 	}
 	
-	/*
+	/* 
 	 *	Gets biggest height between leftChild and rightChild node.
 	 *
 	 *	@param leftChild  height of the left node.
@@ -158,7 +158,7 @@ public class AVL<T extends Comparable<T>>  {
 	 *	<p>
 	 *	If this tempNode is null, no need to balance.
 	 *	<p>
-	 *	Comparison is made between this tempNode's children's heights.
+	 *	Comparison is made between this tempNode's children's heights. 
 	 *	If these heights' difference is greater than 1, a rotation is needed to fix tree.
 	 *	If a rotation is needed, the childrens' height of Node with bigger height are
 	 *	compared. One with the higher height is used to establish the type of rotations
@@ -178,7 +178,7 @@ public class AVL<T extends Comparable<T>>  {
 				tempNode.leftChild = rotateWithRightChild (tempNode.leftChild);
 				tempNode = rotateWithLeftChild (tempNode);
 			}
-			else
+			else 
 				tempNode = rotateWithLeftChild (tempNode);
 		}
 		else if (getKey (tempNode.rightChild) - getKey (tempNode.leftChild) > 1) {
@@ -212,7 +212,7 @@ public class AVL<T extends Comparable<T>>  {
 	 *	Insert data through recursion.
 	 *	<p>
 	 *	Uses recursion to traverse this tree.
-	 *	Uses {@code compareTo}, property of Comparable objects, to find which way
+	 *	Uses {@code compareTo}, property of Comparable objects, to find which way 
 	 *	to traverse through the tree.
 	 *	Calls itself either with left or right child based on comparisonResult.
 	 *	<p>
@@ -240,7 +240,7 @@ public class AVL<T extends Comparable<T>>  {
 		return balanceNode( tempNode );
 	}
 	
-	
+
 	
 	//----------------------------------------------------------------------------
 	/**
@@ -284,7 +284,7 @@ public class AVL<T extends Comparable<T>>  {
 			tempNode.leftChild = remove (data, tempNode.leftChild);
 		else if (comparisonResult > 0)
 			tempNode.rightChild = remove (data, tempNode.rightChild);
-		else
+		else 
 			tempNode = removeNode (tempNode);
 		
 		return balanceNode (tempNode);
@@ -336,11 +336,11 @@ public class AVL<T extends Comparable<T>>  {
 		if (tempNode.rightChild == null) {
 			if (tempNode.leftChild == null)
 				tempNode = null;
-			else
+			else 
 				tempNode = tempNode.leftChild;
 		}
 		
-		else if (tempNode.leftChild == null)
+		else if (tempNode.leftChild == null) 
 			tempNode = tempNode.rightChild;
 		
 		else {
@@ -359,7 +359,7 @@ public class AVL<T extends Comparable<T>>  {
 	}
 	
 	//----------------------------------------------------------------------------
-	
+
 	/*
 	 *	Clears this tree.
 	 */
@@ -393,8 +393,8 @@ public class AVL<T extends Comparable<T>>  {
 		if (!isEmpty())  {
 			
 			return "inOrder: "   + inOrder(headNode) + "\n" +
-			"preOrder: "  + preOrder(headNode) + "\n" +
-			"PostOrder: " + postOrder(headNode);
+						 "preOrder: "  + preOrder(headNode) + "\n" +
+						 "PostOrder: " + postOrder(headNode);
 			
 		}
 		return "";
