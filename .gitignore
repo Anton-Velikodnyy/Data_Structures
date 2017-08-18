@@ -1,11 +1,11 @@
-#####
-# OS X temporary files that should never be committed
+ ####
+ #X temporary files that should never be committed
 .DS_Store
 *.swp
 *.lock
 profile
 
-#####
+####
 # DotEnv files
 .env
 
@@ -26,7 +26,7 @@ Builds/
 
 #####
 # Xcode private settings (window sizes, bookmarks, breakpoints, custom
-# executables, smart groups)
+executables, smart groups)
 *.pbxuser
 *.mode1v3
 *.mode2v3
@@ -38,6 +38,7 @@ Builds/
 
 ####
 # Xcode 4
+*.xcodeproj/
 xcuserdata
 !xcschemes
 # Xcode 4
@@ -100,4 +101,4 @@ Carthage/Build.rbenv-vars
 
 ####
 # rbenv
-.rbenv-vars 
+.rbenv-vars
